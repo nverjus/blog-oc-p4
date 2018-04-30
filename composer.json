@@ -1,0 +1,20 @@
+{
+  "name": "nverjus/blog-oc-p5",
+  "description": "PHP Blog",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "": "src/",
+      "NV\\": "lib/NV"
+    }
+  },
+
+  "require": {
+    "symfony/yaml": "^4.0",
+    "twig/twig": "^2.4"
+  },
+  "authors": [{
+    "name": "Nicolas Verjus",
+    "email": "nverjus@protonmail.com"
+  }]
+}
