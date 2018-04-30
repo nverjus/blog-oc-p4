@@ -1,0 +1,4 @@
+index:
+  url:    /
+  module: front
+  action : index
