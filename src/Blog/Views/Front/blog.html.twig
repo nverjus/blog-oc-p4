@@ -1,0 +1,47 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Blog -
+{% endblock %}
+{% block body %}
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="intro-text">
+            <span class="name">Blog</span>
+            <hr class="star-light">
+            <span class="skills">Technologies du web et compagnie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        {% for post in posts %}
+          <div class=" col-lg-offset-2 col-lg-8 col-md-10 mx-auto">
+            <div class="post-preview">
+              <a href="/post-{{ post.id }}">
+                <h2 class="post-title">
+                  {{ post.title }}
+                </h2>
+              </a>
+              <p class="post-subtitle">{{ post.intro }}
+                <br>
+                <a href="/post-{{ post.id }}">Voir la suite</a>
+              </p>
+
+              <p class="post-meta">Publié le
+                {{ post.updateDate|date("d/m/Y", false) }}</p>
+            </div>
+            <hr>
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

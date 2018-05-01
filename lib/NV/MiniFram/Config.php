@@ -9,4 +9,15 @@ class Config extends ApplicationComponent
     {
         return Yaml::parseFile(__DIR__.'/../../../config/routes.yml');
     }
+
+    private function readConfigFile()
+    {
+        return Yaml::parseFile(__DIR__.'/../../../config/config.yml');
+    }
+
+    public function getDatabaseInfos()
+    {
+        $data = $this->readConfigFile();
+        return $data['database'];
+    }
 }
