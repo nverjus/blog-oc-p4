@@ -4,13 +4,30 @@ namespace Blog\Controller;
 use NV\MiniFram\Controller;
 use NV\MiniFram\Request;
 use Blog\Form\CommentFormBuilder;
+use Blog\Form\ContactMailFormBuilder;
 use Blog\Entity\Comment;
+use Blog\Entity\ContactMail;
 
 class FrontController extends Controller
 {
     public function executeIndex(Request $request)
     {
-        return $this->render('Front/index.html.twig');
+        $contactMail = new ContactMail([]);
+        if ($request->getMethod() == 'POST') {
+            $contactMail->setName($request->postData('name'));
+            $contactMail->setEmail($request->postData('email'));
+            $contactMail->setContent($request->postData('content'));
+        }
+        $formBuilder = new ContactMailFormBuilder($contactMail);
+        $formBuilder->build();
+        $contactForm = $formBuilder->getForm();
+
+        if ($request->getMethod() == 'POST' && $contactForm->isValid()) {
+            $this->app->getSession()->setFlash('Le message à bien été envoyé');
+            $this->app->getResponse()->redirect('/#contact');
+        }
+
+        return $this->render('Front/index.html.twig', array('form' => $contactForm->createView()));
     }
 
     public function executeBlog(Request $request)
