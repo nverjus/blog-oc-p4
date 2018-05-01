@@ -9,14 +9,16 @@ abstract class Application
     protected $name;
     protected $config;
     protected $twig;
+    protected $session;
 
     public function __construct()
     {
-        $this->request = new Request($this);
-        $this->response = new Response($this);
-        $this->config = new Config($this);
+        $this->request = new Request;
+        $this->response = new Response;
+        $this->config = new Config;
         $loader = new \Twig_Loader_Filesystem(__DIR__.'/../../../src/'.$this->name.'/Views');
         $this->twig = new \Twig_Environment($loader);
+        $this->session = new Session;
     }
 
     public function getController()

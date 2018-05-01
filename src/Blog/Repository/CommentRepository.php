@@ -60,4 +60,30 @@ class CommentRepository extends Repository
 
         return $comments;
     }
+
+    public function save(Comment $comment)
+    {
+        if ($comment->isNew()) {
+            $this->add($comment);
+        } elseif (!$comment->isNew()) {
+            $this->edit($comment);
+        }
+    }
+
+    private function add($comment)
+    {
+        $req = $this->db->prepare('INSERT INTO Comment SET author = :author, content = :content, publicationDate = NOW(), postId = :postId');
+        $req->bindValue(':author', $comment->getAuthor(), \PDO::PARAM_STR);
+        $req->bindValue(':content', $comment->getContent(), \PDO::PARAM_STR);
+        $req->bindValue(':postId', $comment->getPostId(), \PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    private function edit($comment)
+    {
+        $req = $this->db->prepare('UPDATE Comment SET author = :author, content = :content');
+        $req->bindValue(':author', $comment->getAuthor(), \PDO::PARAM_STR);
+        $req->bindValue(':content', $comment->getContent(), \PDO::PARAM_STR);
+        $req->execute();
+    }
 }

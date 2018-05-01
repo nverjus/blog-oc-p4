@@ -3,7 +3,7 @@ namespace NV\MiniFram;
 
 use Symfony\Component\Yaml\Yaml;
 
-class Config extends ApplicationComponent
+class Config
 {
     public function getRoutes()
     {

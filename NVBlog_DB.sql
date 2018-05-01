@@ -19,7 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `NVBlog`
 --
-
+DROP DATABASE IF EXISTS NVBlog;
+CREATE DATABASE NVBlog;
+USE NVBlog;
 -- --------------------------------------------------------
 
 --
