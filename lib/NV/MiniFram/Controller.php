@@ -18,7 +18,8 @@ abstract class Controller extends ApplicationComponent
     public function render($view, array $vars = array())
     {
         $loader = new \Twig_Loader_Filesystem(__DIR__.'/../../../src/'.$this->app->getName().'/Views');
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig_Environment($loader, array('debug' => true));
+        $twig->addExtension(new \Twig_Extension_Debug());
         return $twig->render($view, $vars);
     }
 

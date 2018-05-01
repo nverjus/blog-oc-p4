@@ -3,3 +3,12 @@
   list-style: none;
   text-align: left;
 }
+
+#post-content {
+  text-align: justify;
+}
+
+#post-intro {
+  text-align: justify;
+  font-weight: bold;
+}

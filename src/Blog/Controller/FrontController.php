@@ -17,4 +17,22 @@ class FrontController extends Controller
 
         return $this->render('Front/blog.html.twig', array('posts' => $posts));
     }
+
+    public function executePostView(Request $request)
+    {
+        if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {
+            $this->app->getResponse()->redirect404();
+        }
+
+        $post = $this->manager->getRepository('Post')->findById((int) $request->getData('id'));
+        if ($post == null) {
+            $this->app->getResponse()->redirect404();
+        }
+
+        if ($post->getUserId() !== null) {
+            $post->setUser($this->manager->getRepository('User')->findById($post->getUserId()));
+        }
+
+        return $this->render('Front/postView.html.twig', array('post' => $post));
+    }
 }

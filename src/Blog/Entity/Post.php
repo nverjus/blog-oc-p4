@@ -9,6 +9,8 @@ class Post extends Entity
     protected $intro;
     protected $content;
     protected $updateDate;
+    protected $userId = null;
+    protected $user = null;
 
     public function getTitle()
     {
@@ -54,5 +56,27 @@ class Post extends Entity
     public function setUpdateDate($updateDate)
     {
         $this->updateDate = new \DateTime($updateDate);
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function setUserId($userId)
+    {
+        if ((int) $userId > 0) {
+            $this->userId = $userId;
+        }
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 }

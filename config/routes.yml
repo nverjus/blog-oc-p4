@@ -1,9 +1,16 @@
 index:
-  url:    /
-  module: front
-  action : index
+  url:       /
+  module:    front
+  action :   index
 
 blog:
-  url:    /blog
-  module: front
-  action: blog
+  url:       /blog
+  module:    front
+  action:    blog
+
+post_view:
+  url:       /post-([0-9]+)
+  module:    front
+  action:    postView
+  varsNames:
+        - id
