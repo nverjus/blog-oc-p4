@@ -21,12 +21,27 @@
     </div>
   </header>
 
-  <section>
-    <div class="container">
-      <div class="row"></div>
-      <p id="post-intro">{{ post.intro }}</p>
-      <p id="post-content">{{ post.content|nl2br }}</p>
-    </div>
+  <article class="container">
+    <p id="post-intro">{{ post.intro }}</p>
+    <p id="post-content">{{ post.content|nl2br }}</p>
+  </article>
+  <section class="container">
+    <h3>Commentaires</h3>
+    {% if post.comments is not null %}
+      {% for comment in post.comments %}
+        <div class="comment-box">
+          <p>
+            <strong>{{ comment.author }}</strong>
+            le
+            {{ comment.publicationDate|date('d-m-Y \à G:i')}}</p>
+          <p>{{ comment.content }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if post.comments is null %}
+      <div class="comment-box">
+        <p>Il n'y a pas encore de commentaires</p>
+      </div>
+    {% endif %}
   </section>
-
 {% endblock %}
