@@ -1,0 +1,14 @@
+database:
+  dms:        "MySQL"
+  host:       "localhost"
+  dbname:     "NVBlog"
+  user:       "root"
+  password:   ""
+
+swiftmailer:
+  server:     smtp.gmail.com
+  username:   ""
+  password:   ""
+  port:       465
+  encryption: ssl
+  emailTo:    

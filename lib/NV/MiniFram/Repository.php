@@ -8,7 +8,7 @@ abstract class Repository extends ApplicationComponent
     public function __construct(Application $app)
     {
         parent::__construct($app);
-        $this->db = PDOFactory::getDatabaseConnexion($this->app->getConfig()->getDatabaseInfos());
+        $this->db = PDOFactory::getDatabaseConnexion($this->app->getConfig()->get('database'));
     }
 
     abstract public function findAll(bool $desc = true);

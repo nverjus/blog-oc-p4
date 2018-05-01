@@ -1,6 +1,0 @@
-database:
-  dms:      "MySQL"
-  host:     "localhost"
-  dbname:   "NVBlog"
-  user:     "nijus"
-  password: ""

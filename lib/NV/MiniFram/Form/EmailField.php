@@ -23,5 +23,5 @@ class EmailField extends Field
         $widget .= ' name = "'.$this->name.'">';
 
         return $widget .= '</div></div>';
-
+    }
 }
