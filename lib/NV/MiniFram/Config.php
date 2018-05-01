@@ -10,14 +10,13 @@ class Config
         return Yaml::parseFile(__DIR__.'/../../../config/routes.yml');
     }
 
-    private function readConfigFile()
-    {
-        return Yaml::parseFile(__DIR__.'/../../../config/config.yml');
-    }
 
-    public function getDatabaseInfos()
+    public function get($key)
     {
-        $data = $this->readConfigFile();
-        return $data['database'];
+        $data = Yaml::parseFile(__DIR__.'/../../../config/config.yml');
+        if (isset($data[$key])) {
+            return $data[$key];
+        }
+        throw new \InvalidArgumentException('Parameter '.$key.' does not exists.');
     }
 }
