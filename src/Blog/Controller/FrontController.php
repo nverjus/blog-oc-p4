@@ -33,7 +33,7 @@ class FrontController extends Controller
             $post->setUser($this->manager->getRepository('User')->findById($post->getUserId()));
         }
 
-        $post->setComments($this->manager->getRepository('Comment')->findByPost($post->getId()));
+        $post->setComments($this->manager->getRepository('Comment')->findByPostValidated($post->getId()));
 
         return $this->render('Front/postView.html.twig', array('post' => $post));
     }

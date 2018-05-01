@@ -42,7 +42,7 @@ class CommentRepository extends Repository
         return null;
     }
 
-    public function findByPost(int $postId)
+    public function findByPostValidated(int $postId)
     {
         $comments = [];
 
@@ -50,7 +50,7 @@ class CommentRepository extends Repository
             throw new \InvalidArgumentException("postId must be greater than zero");
         }
 
-        $req = $this->db->prepare('SELECT * FROM Comment WHERE postID = :postId');
+        $req = $this->db->prepare('SELECT * FROM Comment WHERE postID = :postId AND isValidated = 1');
         $req->bindValue(':postId', $postId, \PDO::PARAM_INT);
         $req->execute();
 

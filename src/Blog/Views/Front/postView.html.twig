@@ -29,15 +29,13 @@
     <h3>Commentaires</h3>
     {% if post.comments is not null %}
       {% for comment in post.comments %}
-        {% if comment.isValidated %}
-          <div class="comment-box">
-            <p>
-              <strong>{{ comment.author }}</strong>
-              le
-              {{ comment.publicationDate|date('d-m-Y \à G:i')}}</p>
-            <p>{{ comment.content }}</p>
-          </div>
-        {% endif %}
+        <div class="comment-box">
+          <p>
+            <strong>{{ comment.author }}</strong>
+            le
+            {{ comment.publicationDate|date('d-m-Y \à G:i')}}</p>
+          <p>{{ comment.content }}</p>
+        </div>
       {% endfor %}
     {% endif %}
     {% if post.comments is null %}
