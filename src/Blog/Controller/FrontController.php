@@ -7,6 +7,7 @@ use Blog\Form\CommentFormBuilder;
 use Blog\Form\ContactMailFormBuilder;
 use Blog\Entity\Comment;
 use Blog\Entity\ContactMail;
+use NV\MiniFram\Mailer;
 
 class FrontController extends Controller
 {
@@ -23,7 +24,14 @@ class FrontController extends Controller
         $contactForm = $formBuilder->getForm();
 
         if ($request->getMethod() == 'POST' && $contactForm->isValid()) {
-            $this->app->getSession()->setFlash('Le message à bien été envoyé');
+            $contactMail->setTitle('Nouveau message en provenance du blog');
+            $mailer = new Mailer($this->app->getConfig()->get('swiftmailer'));
+
+            if ($mailer->send($contactMail)) {
+                $this->app->getSession()->setFlash('Le message à bien été envoyé');
+            } else {
+                $this->app->getSession()->setFlash('Erreur lors de l\'envoi du message');
+            }
             $this->app->getResponse()->redirect('/#contact');
         }
 

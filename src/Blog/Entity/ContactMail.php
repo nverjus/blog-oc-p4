@@ -31,4 +31,11 @@ class ContactMail extends Mail
             $this->email = $email;
         }
     }
+
+    public function createBody()
+    {
+        return 'Nouveau message de '.$this->name.'
+                Email : '.$this->email.'
+                Message : '.$this->content;
+    }
 }

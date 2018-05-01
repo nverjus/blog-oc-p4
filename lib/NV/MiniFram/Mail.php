@@ -29,4 +29,8 @@ class Mail extends Entity
             $this->title = $title;
         }
     }
+
+    public function createBody()
+    {
+    }
 }
