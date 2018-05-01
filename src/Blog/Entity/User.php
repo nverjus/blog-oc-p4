@@ -16,6 +16,7 @@ class User extends Entity
     {
         if (is_string($name)) {
             $this->name = $name;
+            return $this;
         }
     }
 }

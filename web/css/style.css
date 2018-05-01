@@ -4,11 +4,21 @@
   text-align: left;
 }
 
-#post-content {
+p {
   text-align: justify;
 }
 
 #post-intro {
-  text-align: justify;
   font-weight: bold;
+}
+
+article {
+  margin-top: 100px;
+}
+
+.comment-box {
+  background-color: #eeeeee;
+  padding: 10px;
+  margin: 15px;
+  font-size: 1em;
 }
