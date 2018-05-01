@@ -5,12 +5,14 @@ abstract class Controller extends ApplicationComponent
 {
     protected $module;
     protected $action;
+    protected $manager;
 
     public function __construct($app, $action, $module)
     {
         parent::__construct($app);
         $this->action = $action;
         $this->module = $module;
+        $this->manager = new Manager($app);
     }
 
     public function render($view, array $vars = array())

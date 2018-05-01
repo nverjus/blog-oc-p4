@@ -2,3 +2,8 @@ index:
   url:    /
   module: front
   action : index
+
+blog:
+  url:    /blog
+  module: front
+  action: blog

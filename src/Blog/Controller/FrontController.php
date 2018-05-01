@@ -10,4 +10,11 @@ class FrontController extends Controller
     {
         return $this->render('Front/index.html.twig');
     }
+
+    public function executeBlog(Request $request)
+    {
+        $posts = $this->manager->getRepository('Post')->findAll();
+
+        return $this->render('Front/blog.html.twig', array('posts' => $posts));
+    }
 }

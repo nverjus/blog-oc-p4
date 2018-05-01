@@ -197,17 +197,17 @@ section.success {
     padding-top: 75px;
   }
 }
-#portfolio .portfolio-item {
+#references .portfolio-item {
   margin: 0 0 15px;
   right: 0;
 }
-#portfolio .portfolio-item .portfolio-link {
+#references .portfolio-item .portfolio-link {
   display: block;
   position: relative;
   max-width: 400px;
   margin: 0 auto;
 }
-#portfolio .portfolio-item .portfolio-link .caption {
+#references .portfolio-item .portfolio-link .caption {
   background: rgba(24, 188, 156, 0.9);
   position: absolute;
   width: 100%;
@@ -217,10 +217,10 @@ section.success {
   -webkit-transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
 }
-#portfolio .portfolio-item .portfolio-link .caption:hover {
+#references .portfolio-item .portfolio-link .caption:hover {
   opacity: 1;
 }
-#portfolio .portfolio-item .portfolio-link .caption .caption-content {
+#references .portfolio-item .portfolio-link .caption .caption-content {
   position: absolute;
   width: 100%;
   height: 20px;
@@ -230,18 +230,18 @@ section.success {
   margin-top: -12px;
   color: white;
 }
-#portfolio .portfolio-item .portfolio-link .caption .caption-content i {
+#references .portfolio-item .portfolio-link .caption .caption-content i {
   margin-top: -12px;
 }
-#portfolio .portfolio-item .portfolio-link .caption .caption-content h3,
-#portfolio .portfolio-item .portfolio-link .caption .caption-content h4 {
+#references .portfolio-item .portfolio-link .caption .caption-content h3,
+#references .portfolio-item .portfolio-link .caption .caption-content h4 {
   margin: 0;
 }
-#portfolio * {
+#references * {
   z-index: 2;
 }
 @media (min-width: 767px) {
-  #portfolio .portfolio-item {
+  #references .portfolio-item {
     margin: 0 0 30px;
   }
 }
