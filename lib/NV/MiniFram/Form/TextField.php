@@ -5,13 +5,6 @@ class TextField extends Field
 {
     public function buildWidget()
     {
-
-          <label>Message</label>
-          <textarea rows="5" class="form-control" placeholder="Message" id="message" required="required" data-validation-required-message="Please enter a message."></textarea>
-          <p class="help-block text-danger"></p>
-        </div>
-      </div>
-      <br>
         $widget = "";
         if (!empty($this->errorMessage)) {
             $widget .= '<p class="alert alert-danger">'.$this->errorMessage.'</p>';

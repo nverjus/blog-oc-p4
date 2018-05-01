@@ -1,7 +1,7 @@
 <?php
 namespace NV\MiniFram;
 
-class Request extends ApplicationComponent
+class Request
 {
     public function requestURI()
     {
