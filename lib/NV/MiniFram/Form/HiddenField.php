@@ -11,7 +11,7 @@ class HiddenField extends Field
     {
         $widget = '<input type="hidden" name="'.$this->name.'"';
         if (!empty($this->value)) {
-            $widget .= 'value="'.$this->value.'"';
+            $widget .= ' value="'.$this->value.'"';
         }
         $widget .= '>';
 

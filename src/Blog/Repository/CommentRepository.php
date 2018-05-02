@@ -81,9 +81,11 @@ class CommentRepository extends Repository
 
     private function edit($comment)
     {
-        $req = $this->db->prepare('UPDATE Comment SET author = :author, content = :content');
+        $req = $this->db->prepare('UPDATE Comment SET author = :author, content = :content WHERE id = :id');
         $req->bindValue(':author', $comment->getAuthor(), \PDO::PARAM_STR);
         $req->bindValue(':content', $comment->getContent(), \PDO::PARAM_STR);
+        $req->bindValue(':id', $comment->getId(), \PDO::PARAM_INT);
+
         $req->execute();
     }
 }

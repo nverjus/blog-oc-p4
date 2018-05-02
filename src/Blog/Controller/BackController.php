@@ -34,7 +34,7 @@ class BackController extends Controller
             $post->setIntro($request->postData('intro'));
             $post->setCOntent($request->postData('content'));
         }
-        
+
         $builder = new PostFormBuilder($post);
         $builder->build();
         $form = $builder->getForm();
@@ -47,5 +47,42 @@ class BackController extends Controller
         }
 
         return $this->render('Back/addPost.html.twig', array('form' => $form->createView()));
+    }
+
+    public function executeEditPost(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {
+            $this->app->getResponse()->redirect404();
+        }
+        $post = $this->manager->getRepository('Post')->findById((int) $request->getData('id'));
+        if ($post == null) {
+            $this->app->getResponse()->redirect404();
+        }
+        if ($request->getMethod() == 'POST') {
+            $post->setTitle($request->postData('title'));
+            $post->setIntro($request->postData('intro'));
+            $post->setCOntent($request->postData('content'));
+        }
+
+        $builder = new PostFormBuilder($post);
+        $builder->build();
+        $form = $builder->getForm();
+
+        if ($request->getMethod() == 'POST' && $form->isValid()) {
+            $post->setUserId((int) $this->app->getSession()->getUser()['id']);
+            $this->manager->getRepository('Post')->save($post);
+            $this->app->getSession()->setFlash('L\'article à bien été ajouté');
+            $this->app->getResponse()->redirect('/admin-posts');
+        }
+
+        return $this->render('Back/editPost.html.twig', array(
+          'form' => $form->createView(),
+          'post' => $post,
+        ));
     }
 }

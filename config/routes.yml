@@ -8,10 +8,10 @@ blog:
   module:     front
   action:     blog
 
-post_view:
+view_post:
   url:        /post-([0-9]+)
   module:     front
-  action:     postView
+  action:     viewPost
   varsNames:
         - id
 
@@ -24,6 +24,13 @@ add_post:
   url:        /add-post
   module:     back
   action:     addPost
+
+edit_post:
+  url:        /edit-post-([0-9]+)
+  module:     back
+  action:     editPost
+  varsNames:
+        - id
 
 login:
   url:        /login
