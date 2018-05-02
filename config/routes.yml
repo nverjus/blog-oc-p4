@@ -32,6 +32,13 @@ edit_post:
   varsNames:
         - id
 
+delete_post:
+  url:        /delete-post-([0-9]+)
+  module:     back
+  action:     deletePost
+  varsNames:
+        - id
+
 login:
   url:        /login
   module:     security

@@ -56,13 +56,10 @@
                     </a>
                   </td>
                   <td>
-                    <a href="/edit-post-{{ post.id }}">
-                      <button type="button" class="btn btn-danger">
-                        <i class="fa fa-close fa-lg"></i>
-                      </button>
-                    </a>
+                    <form action="/delete-post-{{ post.id }}" method="post">
+                      {{ form|raw }}
+                    </form>
                   </td>
-                  <td></td>
                 </tr>
               {% endfor %}
             </tbody>

@@ -42,6 +42,25 @@ class CommentRepository extends Repository
         return null;
     }
 
+    public function findByPost(int $postId)
+    {
+        $comments = [];
+
+        if ($postId <= 0) {
+            throw new \InvalidArgumentException("postId must be greater than zero");
+        }
+
+        $req = $this->db->prepare('SELECT * FROM Comment WHERE postID = :postId');
+        $req->bindValue(':postId', $postId, \PDO::PARAM_INT);
+        $req->execute();
+
+        while ($data = $req->fetch()) {
+            $comments[] = new Comment($data);
+        }
+
+        return $comments;
+    }
+
     public function findByPostValidated(int $postId)
     {
         $comments = [];
@@ -86,6 +105,13 @@ class CommentRepository extends Repository
         $req->bindValue(':content', $comment->getContent(), \PDO::PARAM_STR);
         $req->bindValue(':id', $comment->getId(), \PDO::PARAM_INT);
 
+        $req->execute();
+    }
+
+    public function delete(Comment $comment)
+    {
+        $req = $this->db->prepare('DELETE FROM Comment WHERE id = :id');
+        $req->bindValue(':id', $comment->getId());
         $req->execute();
     }
 }

@@ -71,4 +71,11 @@ class PostRepository extends Repository
 
         $req->execute();
     }
+
+    public function delete(Post $post)
+    {
+        $req = $this->db->prepare('DELETE FROM Post WHERE id = :id');
+        $req->bindValue(':id', $post->getId());
+        $req->execute();
+    }
 }
