@@ -51,10 +51,6 @@ class User extends Entity
             $this->clearPassword = $clearPassword;
         }
     }
-    public function getIsValidated()
-    {
-        return $this->$isValidated;
-    }
 
     public function getRole()
     {

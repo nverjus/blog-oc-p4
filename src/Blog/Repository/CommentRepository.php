@@ -18,11 +18,11 @@ class CommentRepository extends Repository
         $req = $this->db->query($sql);
 
         while ($data = $req->fetch()) {
-            $users[] = new Comment($data);
+            $comments[] = new Comment($data);
         }
         $req->closeCursor();
 
-        return $commentts;
+        return $comments;
     }
 
     public function findById(int $id)

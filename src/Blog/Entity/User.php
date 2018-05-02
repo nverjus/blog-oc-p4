@@ -22,7 +22,7 @@ class User extends MiniFram\User
 
     public function getIsValidated()
     {
-        return $this->$isValidated;
+        return $this->isValidated;
     }
 
     public function setIsValidated($isValidated)
