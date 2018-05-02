@@ -26,6 +26,9 @@ class CSRFField extends Field
 
     public function saveToken()
     {
+        if ($this->session->attributeExists('csrf')) {
+            $this->value = $this->session->getAttribute('csrf');
+        }
         $this->session->setAttribute('csrf', $this->value);
     }
 }

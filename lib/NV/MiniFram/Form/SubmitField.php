@@ -7,7 +7,7 @@ class SubmitField extends Field
 
     public function buildWidget()
     {
-        $widget = '<div class="row">
+        $widget = '<div>
                 <div class="form-group col-xs-12">';
 
         $widget .=  '<button type="submit"';

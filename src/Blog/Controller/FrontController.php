@@ -45,7 +45,7 @@ class FrontController extends Controller
         return $this->render('Front/blog.html.twig', array('posts' => $posts));
     }
 
-    public function executePostView(Request $request)
+    public function executeViewPost(Request $request)
     {
         // if id is incorect, redirect to error 404
         if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {

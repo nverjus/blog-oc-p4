@@ -63,10 +63,19 @@ class PostRepository extends Repository
 
     private function edit($post)
     {
-        $req = $this->db->prepare('UPDATE Post SET title = :title, intro = :intro, content = :content, updateDate = NOW()');
+        $req = $this->db->prepare('UPDATE Post SET title = :title, intro = :intro, content = :content, updateDate = NOW() WHERE id = :id');
         $req->bindValue(':title', $post->getTitle(), \PDO::PARAM_STR);
         $req->bindValue(':intro', $post->getIntro(), \PDO::PARAM_STR);
         $req->bindValue(':content', $post->getContent(), \PDO::PARAM_STR);
+        $req->bindValue(':id', $post->getId(), \PDO::PARAM_INT);
+
+        $req->execute();
+    }
+
+    public function delete(Post $post)
+    {
+        $req = $this->db->prepare('DELETE FROM Post WHERE id = :id');
+        $req->bindValue(':id', $post->getId());
         $req->execute();
     }
 }
