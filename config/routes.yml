@@ -21,7 +21,7 @@ admin_posts:
   action:     adminPosts
 
 add_post:
-  url:        add-post
+  url:        /add-post
   module:     back
   action:     addPost
 
