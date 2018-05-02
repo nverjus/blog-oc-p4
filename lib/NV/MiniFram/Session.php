@@ -50,6 +50,7 @@ class Session
         $data = [
           'name' => $user->getName(),
           'role' => $user->getRole(),
+          'id' => $user->getId(),
         ];
         $this->setAttribute('user', $data);
     }

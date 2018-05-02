@@ -1,7 +1,7 @@
 <?php
 namespace NV\MiniFram;
 
-class Response
+class Response extends ApplicationComponent
 {
     public function redirect404()
     {

@@ -28,7 +28,7 @@ class SecurityController extends Controller
                 if ($user->verifyPassword()) {
                     $user->connect();
                     $this->app->getSession()->setFlash('Bienvenue '.$user->getName());
-                    $this->app->getResponse()->redirect('/login');
+                    $this->app->getResponse()->redirect('/admin-posts');
                 }
             }
             $this->app->getSession()->setFlash('Identifiants incorrects');

@@ -20,6 +20,11 @@
   <section>
     <div class="container">
       <div class="row">
+        {% if flash is not null %}
+          <div class="alert alert-info">
+            <p>{{ flash }}</p>
+          </div>
+        {% endif %}
         {% for post in posts %}
           <div class=" col-lg-offset-2 col-lg-8 col-md-10 mx-auto">
             <div class="post-preview">

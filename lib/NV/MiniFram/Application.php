@@ -14,7 +14,7 @@ abstract class Application
     public function __construct()
     {
         $this->request = new Request;
-        $this->response = new Response;
+        $this->response = new Response($this);
         $this->config = new Config;
         $loader = new \Twig_Loader_Filesystem(__DIR__.'/../../../src/'.$this->name.'/Views');
         $this->twig = new \Twig_Environment($loader);

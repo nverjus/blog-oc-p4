@@ -41,4 +41,32 @@ class PostRepository extends Repository
 
         return null;
     }
+
+    public function save(Post $post)
+    {
+        if ($post->isNew()) {
+            $this->add($post);
+        } elseif (!$post->isNew()) {
+            $this->edit($post);
+        }
+    }
+
+    private function add($post)
+    {
+        $req = $this->db->prepare('INSERT INTO Post SET title = :title, intro = :intro, content = :content, updateDate = NOW(), userId = :userId');
+        $req->bindValue(':title', $post->getTitle(), \PDO::PARAM_STR);
+        $req->bindValue(':intro', $post->getIntro(), \PDO::PARAM_STR);
+        $req->bindValue(':content', $post->getContent(), \PDO::PARAM_STR);
+        $req->bindValue(':userId', $post->getUserId(), \PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    private function edit($post)
+    {
+        $req = $this->db->prepare('UPDATE Post SET title = :title, intro = :intro, content = :content, updateDate = NOW()');
+        $req->bindValue(':title', $post->getTitle(), \PDO::PARAM_STR);
+        $req->bindValue(':intro', $post->getIntro(), \PDO::PARAM_STR);
+        $req->bindValue(':content', $post->getContent(), \PDO::PARAM_STR);
+        $req->execute();
+    }
 }
