@@ -44,25 +44,12 @@
           </button>
           <a class="navbar-brand" href="/">Nicolas Verjus</a>
         </div>
+        {% if app.session.userHasRole('member') %}
+          {{ include('Back/menu.html.twig') }}
+        {% elseif not app.session.userHasRole('member') %}
+          {{ include('Front/menu.html.twig') }}
+        {% endif %}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="/">Accueil</a>
-            </li>
-            <li>
-              <a href="/#references">Réferences</a>
-            </li>
-            <li>
-              <a href="/blog">Blog</a>
-            </li>
-            <li>
-              <a href="/#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-        <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
     </nav>
@@ -102,9 +89,15 @@
                 <li>
                   <a href="/#contact">Contact</a>
                 </li>
-                <li>
-                  <a href="#">Login</a>
-                </li>
+                {% if not app.session.userHasRole('member') %}
+                  <li>
+                    <a href="/login">Se connecter</a>
+                  </li>
+                {% endif %}
+                {% if app.session.userHasRole('member') %}
+                  <li>
+                    <a href="/logout">Se déconnecter</a>
+                  {% endif %}
               </ul>
             </div>
           </div>
@@ -114,7 +107,8 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              Copyright &copy; Nicolas Verjus 2018
+              Copyright &copy; Nicolas Verjus
+              {{ 'now'|date('Y') }}
             </div>
           </div>
         </div>

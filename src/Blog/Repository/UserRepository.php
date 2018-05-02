@@ -41,4 +41,21 @@ class UserRepository extends Repository
 
         return null;
     }
+
+    public function findByEmail($email)
+    {
+        if (!is_string($email)) {
+            throw new \InvalidArgumentException("Email must be a string");
+        }
+
+        $req = $this->db->prepare('SELECT * FROM User WHERE email = :email');
+        $req->bindValue(':email', $email, \PDO::PARAM_STR);
+        $req->execute();
+
+        if ($data = $req->fetch()) {
+            return new User($data);
+        }
+
+        return null;
+    }
 }

@@ -1,0 +1,19 @@
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav navbar-right">
+    <li>
+      <a href="#">Gerer les articles</a>
+    </li>
+    <li>
+      <a href="#">Gerer les commentaires</a>
+    </li>
+    {% if app.session.userHasRole('admin') %}
+      <li>
+        <a href="#">Gerer les membres</a>
+      </li>
+    {% endif %}
+    <li>
+      <a href="/logout">Se déconnecter</a>
+    </li>
+
+  </ul>
+</div>

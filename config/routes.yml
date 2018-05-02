@@ -14,3 +14,13 @@ post_view:
   action:    postView
   varsNames:
         - id
+
+login:
+  url:       /login
+  module:    security
+  action :   login
+
+logout:
+  url:       /logout
+  module:    security
+  action :   logout
