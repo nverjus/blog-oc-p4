@@ -20,14 +20,14 @@ class Session
 
     public function deleteAttribute($attr)
     {
-        if (isset($_SESSION[$attr])) {
+        if ($this->attributeExists($attr)) {
             unset($_SESSION[$attr]);
         }
     }
 
     public function setFlash($var)
     {
-        $_SESSION['flash'] = $var;
+        $this->setAttribute('flash', $var);
     }
 
     public function getFlash()
@@ -35,16 +35,32 @@ class Session
         if (!isset($_SESSION['flash'])) {
             return null;
         }
-        $flash = $_SESSION['flash'];
-        unset($_SESSION['flash']);
+        $flash = $this->getAttribute('flash');
+        $this->deleteAttribute('flash');
         return $flash;
     }
 
-
-    public function isAuthentified()
+    public function getUser()
     {
-        if (isset($_SESSION['auth'])) {
-            return $_SESSION['auth'];
+        return $this->getAttribute('user');
+    }
+
+    public function setUser($user)
+    {
+        $data = [
+          'name' => $user->getName(),
+          'role' => $user->getRole(),
+        ];
+        $this->setAttribute('user', $data);
+    }
+
+
+    public function userHasRole($role)
+    {
+        if ($this->attributeExists('user')) {
+            if (($this->getUser()['role'] == $role) || ($this->getUser()['role'] == 'admin')) {
+                return true;
+            }
         }
         return false;
     }
