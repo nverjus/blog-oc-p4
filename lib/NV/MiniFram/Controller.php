@@ -38,4 +38,9 @@ abstract class Controller extends ApplicationComponent
         }
         return $this->$method($this->app->getRequest());
     }
+
+    public function isGranted($role)
+    {
+        return $this->app->getSession()->userHasRole($role);
+    }
 }
