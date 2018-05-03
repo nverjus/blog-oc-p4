@@ -4,8 +4,11 @@ namespace Blog\Controller;
 use NV\MiniFram\Controller;
 use NV\MiniFram\Request;
 use Blog\Entity\Post;
+use Bog\Entity\Comments;
 use Blog\Form\PostFormBuilder;
+use Blog\Form\CommentFormBuilder;
 use Blog\Form\DeleteFormBuilder;
+use Blog\Form\ValidateFormBuilder;
 
 class BackController extends Controller
 {
@@ -71,6 +74,7 @@ class BackController extends Controller
             $post->setTitle($request->postData('title'));
             $post->setIntro($request->postData('intro'));
             $post->setContent($request->postData('content'));
+            $post->setUserId((int) $request->postData('userId'));
         }
 
         $builder = new PostFormBuilder($post);
@@ -78,9 +82,8 @@ class BackController extends Controller
         $form = $builder->getForm();
 
         if ($request->getMethod() == 'POST' && $form->isValid()) {
-            $post->setUserId((int) $this->app->getSession()->getUser()['id']);
             $this->manager->getRepository('Post')->save($post);
-            $this->app->getSession()->setFlash('L\'article à bien été ajouté');
+            $this->app->getSession()->setFlash('L\'article à bien été modifié');
             $this->app->getResponse()->redirect('/admin-posts');
         }
 
@@ -115,7 +118,133 @@ class BackController extends Controller
         } else {
             $this->app->getSession()->setAttribute('flash', 'L\'article n\'existe pas');
         }
-        
+
         $this->app->getResponse()->redirect('/admin-posts');
+    }
+
+    public function executeAdminComments(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        $postsToValidate = $this->manager->getRepository('Post')->findAll();
+        foreach ($postsToValidate as $post) {
+            $post->setComments($this->manager->getRepository('Comment')->findByPostNotValidated($post->getId()));
+            if (empty($post->getComments())) {
+                unset($post);
+            }
+        }
+        $postsToValidate = array_values($postsToValidate);
+
+        $postsValidated = $this->manager->getRepository('Post')->findAll();
+        foreach ($postsValidated as $post) {
+            $post->setComments($this->manager->getRepository('Comment')->findByPostValidated($post->getId()));
+            if (empty($post->getComments())) {
+                unset($post);
+            }
+        }
+        $postsValidated = array_values($postsValidated);
+
+
+        $deleteBuilder = new DeleteFormBuilder;
+        $deleteBuilder->build();
+        $deleteForm = $deleteBuilder->getForm();
+
+        $validateBuilder = new ValidateFormBuilder;
+        $validateBuilder->build();
+        $validateForm = $validateBuilder->getForm();
+
+        return $this->render('Back/adminComments.html.twig', array(
+          'postsToValidate' => $postsToValidate,
+          'postsValidated' => $postsValidated,
+          'deleteForm' => $deleteForm->createView(),
+          'validateForm' => $validateForm->createView()
+        ));
+    }
+
+    public function executeEditComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {
+            $this->app->getResponse()->redirect404();
+        }
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment == null) {
+            $this->app->getResponse()->redirect404();
+        }
+        if ($request->getMethod() == 'POST') {
+            $comment->setAuthor($request->postData('author'));
+            $comment->setContent($request->postData('content'));
+            $comment->setPostId((int) $request->postData('postId'));
+        }
+
+        $builder = new CommentFormBuilder($comment);
+        $builder->build();
+        $form = $builder->getForm();
+
+        if ($request->getMethod() == 'POST' && $form->isValid()) {
+            $this->manager->getRepository('Comment')->save($comment);
+            $this->app->getSession()->setFlash('Le commentaire à bien été modifié');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        return $this->render('Back/editComment.html.twig', array(
+          'form' => $form->createView(),
+          'comment' => $comment,
+        ));
+    }
+
+    public function executeValidateComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez valider un commentaire sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment === null) {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
+            $this->app->getResponse()->redirect('/admin-comments');
+        } elseif ($comment->getIsValidated()) {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire à déjà été validé');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        $this->manager->getRepository('Comment')->validate($comment);
+        $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été validé');
+        $this->app->getResponse()->redirect('/admin-comments');
+    }
+
+    public function executeDeleteComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez supprimer un article sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-posts');
+        }
+
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment !== null) {
+            $this->manager->getRepository('Comment')->delete($comment);
+
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été supprimé');
+        } else {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
+        }
+
+        $this->app->getResponse()->redirect('/admin-comments');
     }
 }

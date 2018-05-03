@@ -80,6 +80,25 @@ class CommentRepository extends Repository
         return $comments;
     }
 
+    public function findByPostNotValidated(int $postId)
+    {
+        $comments = [];
+
+        if ($postId <= 0) {
+            throw new \InvalidArgumentException("postId must be greater than zero");
+        }
+
+        $req = $this->db->prepare('SELECT * FROM Comment WHERE postID = :postId AND isValidated = 0');
+        $req->bindValue(':postId', $postId, \PDO::PARAM_INT);
+        $req->execute();
+
+        while ($data = $req->fetch()) {
+            $comments[] = new Comment($data);
+        }
+
+        return $comments;
+    }
+
     public function save(Comment $comment)
     {
         if ($comment->isNew()) {
@@ -112,6 +131,14 @@ class CommentRepository extends Repository
     {
         $req = $this->db->prepare('DELETE FROM Comment WHERE id = :id');
         $req->bindValue(':id', $comment->getId());
+        $req->execute();
+    }
+
+    public function validate(Comment $comment)
+    {
+        $req = $this->db->prepare('UPDATE Comment SET isValidated = 1 WHERE id = :id');
+        $req->bindValue(':id', $comment->getId(), \PDO::PARAM_INT);
+
         $req->execute();
     }
 }

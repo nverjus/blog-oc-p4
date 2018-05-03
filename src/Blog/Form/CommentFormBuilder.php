@@ -4,6 +4,7 @@ namespace Blog\Form;
 use NV\MiniFram\Form\FormBuilder;
 use NV\MiniFram\Form\StringField;
 use NV\MiniFram\Form\TextField;
+use NV\MiniFram\Form\HiddenField;
 use NV\MiniFram\Form\SubmitField;
 use NV\MiniFram\Validator\MaxLengthValidator;
 use NV\MiniFram\Validator\NotNullValidator;
@@ -27,6 +28,9 @@ class CommentFormBuilder extends FormBuilder
       'validators' => [
         new NotNullValidator('Votre commentaire ne peut pas être vide'),
       ],
+    ]))
+    ->add(new HiddenField([
+      'name' => 'postId',
     ]))
     ->add(new SubmitField([
       'value' => 'Envoyer',
