@@ -59,6 +59,33 @@ class UserRepository extends Repository
         return null;
     }
 
+    public function findValidated()
+    {
+        $users = [];
+
+        $req = $this->db->prepare('SELECT * FROM User WHERE isValidated = 1');
+        $req->execute();
+
+        while ($data = $req->fetch()) {
+            $users[] = new User($data);
+        }
+
+        return $users;
+    }
+
+    public function findNotValidated()
+    {
+        $users = [];
+
+        $req = $this->db->prepare('SELECT * FROM User WHERE isValidated = 0');
+        $req->execute();
+
+        while ($data = $req->fetch()) {
+            $users[] = new User($data);
+        }
+        return $users;
+    }
+
     public function save(User $user)
     {
         if ($user->isNew()) {

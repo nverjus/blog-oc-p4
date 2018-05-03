@@ -80,3 +80,8 @@ signin:
   url:             /signin
   module:          security
   action:          signIn
+
+admin_users:
+  url:             /admin-users
+  module:          security
+  action:          adminUsers

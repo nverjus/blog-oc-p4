@@ -6,6 +6,8 @@ use NV\MiniFram\Request;
 use Blog\Entity\User;
 use Blog\Form\LoginFormBuilder;
 use Blog\Form\UserFormBuilder;
+use Blog\Form\DeleteFormBuilder;
+use Blog\Form\ValidateFormBuilder;
 
 class SecurityController extends Controller
 {
@@ -79,5 +81,33 @@ class SecurityController extends Controller
         }
 
         return $this->render('Security/signin.html.twig', array('form' => $form->createView()));
+    }
+
+    public function executeAdminUsers(Request $request)
+    {
+        if (!$this->isGranted('admin')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        $usersToValidate = $this->manager->getRepository('User')->findNotValidated();
+
+        $usersValidated = $this->manager->getRepository('User')->findValidated();
+
+
+        $deleteBuilder = new DeleteFormBuilder;
+        $deleteBuilder->build();
+        $deleteForm = $deleteBuilder->getForm();
+
+        $validateBuilder = new ValidateFormBuilder;
+        $validateBuilder->build();
+        $validateForm = $validateBuilder->getForm();
+
+        return $this->render('Security/adminUsers.html.twig', array(
+          'usersToValidate' => $usersToValidate,
+          'usersValidated' => $usersValidated,
+          'deleteForm' => $deleteForm->createView(),
+          'validateForm' => $validateForm->createView()
+        ));
     }
 }
