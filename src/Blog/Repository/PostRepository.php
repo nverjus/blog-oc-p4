@@ -32,7 +32,7 @@ class PostRepository extends Repository
         }
 
         $offset = ($page -1) * $postsPerPage;
-        $postss = [];
+        $posts = [];
 
 
         $req = $this->db->prepare('SELECT * FROM Post ORDER BY id DESC LIMIT :postsPerPage OFFSET :ofset');
