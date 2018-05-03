@@ -133,4 +133,12 @@ class CommentRepository extends Repository
         $req->bindValue(':id', $comment->getId());
         $req->execute();
     }
+
+    public function validate(Comment $comment)
+    {
+        $req = $this->db->prepare('UPDATE Comment SET isValidated = 1 WHERE id = :id');
+        $req->bindValue(':id', $comment->getId(), \PDO::PARAM_INT);
+
+        $req->execute();
+    }
 }

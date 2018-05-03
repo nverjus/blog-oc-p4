@@ -123,6 +123,11 @@ class BackController extends Controller
 
     public function executeAdminComments(Request $request)
     {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
         $postsToValidate = $this->manager->getRepository('Post')->findAll();
         foreach ($postsToValidate as $post) {
             $post->setComments($this->manager->getRepository('Comment')->findByPostNotValidated($post->getId()));
@@ -156,5 +161,30 @@ class BackController extends Controller
           'deleteForm' => $deleteForm->createView(),
           'validateForm' => $validateForm->createView()
         ));
+    }
+
+    public function executeValidateComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez valider un commentaire sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment === null) {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
+            $this->app->getResponse()->redirect('/admin-comments');
+        } elseif ($comment->getIsValidated()) {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire à déjà été validé');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        $this->manager->getRepository('Comment')->validate($comment);
+        $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été validé');
+        $this->app->getResponse()->redirect('/admin-comments');
     }
 }
