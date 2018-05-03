@@ -1,0 +1,114 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Gérer les membres -
+{% endblock %}
+{% block body %}
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="intro-text">
+            <span class="name">Gérer les membres</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      {% if flash is not null %}
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="alert alert-info">
+              <p>{{ flash }}</p>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <h3>Membres à valider</h3>
+      {% if usersToValidate is empty %}
+        <p>Il n'y à pas de membres à valider.</p>
+      {% endif %}
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="col-md-9">Nom</th>
+                <th class="col-md-1">Modifier</th>
+                <th class="col-md-1">Valider</th>
+                <th class="col-md-1">Supprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in usersToValidate %}
+
+                <tr>
+                  <td>
+                    <p>{{ user.name }}</p>
+                  </td>
+                  <td>
+                    <a href="/edit-user-{{ user.id }}">
+                      <button type="button" class="btn btn-primary">
+                        <i class="fa fa-edit fa-lg"></i>
+                      </button>
+                    </a>
+                  </td>
+                  <td>
+                    <form action="/validate-user-{{ user.id }}" method="post">
+                      {{ validateForm|raw }}
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/delete-user-{{ user.id }}" method="post">
+                      {{ deleteForm|raw }}
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <h3>Reste des membres</h3>
+      {% if usersValidated is empty %}
+        <p>Il n'y à pas de membres.</p>
+      {% endif %}
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="col-md-9">Commentaire</th>
+                <th class="col-md-offset-1 col-md-1">Modifier</th>
+                <th class="col-md-1">Supprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in usersValidated %}
+                <tr>
+                  <td>
+                    <p>{{ user.name }}</p>
+                  </td>
+                  <td>
+                    <a href="/edit-user-{{ user.id }}">
+                      <button type="button" class="btn btn-primary">
+                        <i class="fa fa-edit fa-lg"></i>
+                      </button>
+                    </a>
+                  </td>
+                  <td>
+                    <form action="/delete-user-{{ user.id }}" method="post">
+                      {{ deleteForm|raw }}
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

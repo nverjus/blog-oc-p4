@@ -39,6 +39,7 @@ delete_post:
   varsNames:
         - id
 
+
 adminComments:
   url:             /admin-comments
   module:          back
@@ -68,9 +69,40 @@ delete_comment:
 login:
   url:             /login
   module:          security
-  action :         login
+  action :         logIn
 
 logout:
   url:             /logout
   module:          security
-  action :         logout
+  action :         logOut
+
+signin:
+  url:             /signin
+  module:          security
+  action:          signIn
+
+admin_users:
+  url:             /admin-users
+  module:          security
+  action:          adminUsers
+
+edit_user:
+  url:             /edit-user-([0-9]+)
+  module:          security
+  action:          editUser
+  varsNames:
+        - id
+
+validate_user:
+  url:             /validate-user-([0-9]+)
+  module:          security
+  action:          validateUser
+  varsNames:
+        - id
+
+delete_user:
+  url:             /delete-user-([0-9]+)
+  module:          security
+  action:          deleteUser
+  varsNames:
+        - id

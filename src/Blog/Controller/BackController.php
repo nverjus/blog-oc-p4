@@ -215,9 +215,6 @@ class BackController extends Controller
         if ($comment === null) {
             $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
             $this->app->getResponse()->redirect('/admin-comments');
-        } elseif ($comment->getIsValidated()) {
-            $this->app->getSession()->setAttribute('flash', 'Le commentaire à déjà été validé');
-            $this->app->getResponse()->redirect('/admin-comments');
         }
 
         $this->manager->getRepository('Comment')->validate($comment);
@@ -232,8 +229,8 @@ class BackController extends Controller
             $this->app->getResponse()->redirect('/blog');
         }
         if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
-            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez supprimer un article sans passer par cette page');
-            $this->app->getResponse()->redirect('/admin-posts');
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez supprimer un commentaire sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-comments');
         }
 
         $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
@@ -241,8 +238,6 @@ class BackController extends Controller
             $this->manager->getRepository('Comment')->delete($comment);
 
             $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été supprimé');
-        } else {
-            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
         }
 
         $this->app->getResponse()->redirect('/admin-comments');
