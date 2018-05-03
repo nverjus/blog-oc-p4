@@ -2,6 +2,7 @@
 namespace NV\MiniFram\Form;
 
 use NV\MiniFram\Session;
+use NI\MiniFram\Validator\CSRFValidator;
 
 class CSRFField extends Field
 {
@@ -22,6 +23,17 @@ class CSRFField extends Field
 
 
         return $widget;
+    }
+
+    public function isValid()
+    {
+        $validator = new CSRFValidator('Le Jeton CSRF ne correspond pas');
+        if (!$validator->isValid($this->value)) {
+            $this->errorMessage = $validator->getErrorMessage();
+            return false;
+        }
+
+        return true;
     }
 
     public function saveToken()

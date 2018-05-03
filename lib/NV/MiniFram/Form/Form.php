@@ -21,11 +21,7 @@ class Form
 
     public function createView()
     {
-        $csrfField  = new CSRFField(array(
-          'validators' => [
-            new \NV\MiniFram\Validator\CSRFValidator('Le Jeton CSRF ne correspond pas.'),
-          ]
-        ));
+        $csrfField  = new CSRFField;
         $csrfField->saveToken();
         $view = '';
 

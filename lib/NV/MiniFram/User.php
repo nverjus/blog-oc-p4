@@ -5,6 +5,7 @@ class User extends Entity
 {
     protected $name;
     protected $password;
+    protected $passwordConfirmation;
     protected $clearPassword;
     protected $role;
     private $session;
@@ -37,6 +38,18 @@ class User extends Entity
     {
         if (is_string($password)) {
             $this->password = $password;
+        }
+    }
+
+    public function getPasswordConfirmation()
+    {
+        return $this->passwordConfirmation;
+    }
+
+    public function setPasswordConfirmation($passwordConfirmation)
+    {
+        if (is_string($passwordConfirmation)) {
+            $this->passwordConfirmation = $passwordConfirmation;
         }
     }
 
@@ -85,6 +98,11 @@ class User extends Entity
         $result = password_verify($this->clearPassword, $this->password);
         $this->clearPassword = null;
         return $result;
+    }
+
+    public function passwordMatch()
+    {
+        return $this->password == $this->passwordConfirmation;
     }
 
     public function connect()

@@ -58,4 +58,46 @@ class UserRepository extends Repository
 
         return null;
     }
+
+    public function save(User $user)
+    {
+        if ($user->isNew()) {
+            $this->add($user);
+        } elseif (!$user->isNew()) {
+            $this->edit($user);
+        }
+    }
+
+    private function add(User $user)
+    {
+        $req = $this->db->prepare('INSERT INTO User SET name = :name, email = :email, password = :password');
+        $req->bindValue(':name', $user->getName(), \PDO::PARAM_STR);
+        $req->bindValue(':email', $user->getEmail(), \PDO::PARAM_STR);
+        $req->bindValue(':password', $user->getPassword(), \PDO::PARAM_STR);
+        $req->execute();
+    }
+
+    private function edit(User $user)
+    {
+        $req = $this->db->prepare('UPDATE User SET name = :name, email = :email, password = :password');
+        $req->bindValue(':name', $user->getName(), \PDO::PARAM_STR);
+        $req->bindValue(':email', $user->getEmail(), \PDO::PARAM_STR);
+        $req->bindValue(':password', $user->getPassword(), \PDO::PARAM_STR);
+        $req->execute();
+    }
+
+    public function delete(User $user)
+    {
+        $req = $this->db->prepare('DELETE FROM User WHERE id = :id');
+        $req->bindValue(':id', $user->getId());
+        $req->execute();
+    }
+
+    public function validate(User $user)
+    {
+        $req = $this->db->prepare('UPDATE User SET isValidated = 1 WHERE id = :id');
+        $req->bindValue(':id', $user->getId(), \PDO::PARAM_INT);
+
+        $req->execute();
+    }
 }
