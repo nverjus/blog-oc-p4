@@ -11,4 +11,6 @@ swiftmailer:
   password:   ""
   port:       465
   encryption: ssl
-  emailTo:    
+  emailTo:
+
+  articles_per_page:  10

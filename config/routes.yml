@@ -6,7 +6,15 @@ index:
 blog:
   url:             /blog
   module:          front
-  action:          blog
+  action :         blog
+
+blog_page:
+  url:             /blog-([0-9]*)
+  module:          front
+  action :         blog
+  varsNames:
+        - page
+
 
 view_post:
   url:             /post-([0-9]+)
