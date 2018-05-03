@@ -46,6 +46,16 @@
           </div>
         {% endfor %}
       </div>
+      <div class="row">
+        <div class="clearfix">
+          {% if page > 1 %}
+            <a class="btn btn-success float-left" href="/blog-{{ page-1 }}">&larr; Noueaux articles</a>
+          {% endif %}
+          {% if page < nbPages %}
+            <a class="btn btn-success float-right" href="/blog-{{ page+1 }}">Anciens articles &rarr;</a>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </section>
 

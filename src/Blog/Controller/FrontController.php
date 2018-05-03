@@ -40,9 +40,26 @@ class FrontController extends Controller
 
     public function executeBlog(Request $request)
     {
-        $posts = $this->manager->getRepository('Post')->findAll();
+        if (!$request->getExists('page')) {
+            $page = 1;
+        } elseif ($request->getExists('page')) {
+            $page = $request->getData('page');
+        }
 
-        return $this->render('Front/blog.html.twig', array('posts' => $posts));
+        $postRepo = $this->manager->getRepository('Post');
+        $nbPages = $postRepo->getNbPages($this->app->getConfig()->get('posts_per_page'));
+
+        if ($page <= 0 || $page > $nbPages) {
+            $this->app->getResponse()->redirect404();
+        }
+        $posts = $postRepo->findLastX($this->app->getConfig()->get('posts_per_page'), (int) $page);
+        $nbPages = $postRepo->getNbPages($this->app->getConfig()->get('posts_per_page'));
+
+        return $this->render('Front/blog.html.twig', array(
+          'posts' => $posts,
+          'page' => (int) $page,
+          'nbPages'=> (int) $nbPages,
+        ));
     }
 
     public function executeViewPost(Request $request)
