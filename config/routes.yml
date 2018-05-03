@@ -51,6 +51,13 @@ validate_comment:
   varsNames:
         - id
 
+edit_comment:
+  url:             /edit-comment-([0-9]+)
+  module:          back
+  action:          editComment
+  varsNames:
+        - id
+
 delete_comment:
   url:             /delete-comment-([0-9]+)
   module:          back

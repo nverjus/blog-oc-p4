@@ -6,6 +6,7 @@ use NV\MiniFram\Request;
 use Blog\Entity\Post;
 use Bog\Entity\Comments;
 use Blog\Form\PostFormBuilder;
+use Blog\Form\CommentFormBuilder;
 use Blog\Form\DeleteFormBuilder;
 use Blog\Form\ValidateFormBuilder;
 
@@ -73,6 +74,7 @@ class BackController extends Controller
             $post->setTitle($request->postData('title'));
             $post->setIntro($request->postData('intro'));
             $post->setContent($request->postData('content'));
+            $post->setUserId((int) $request->postData('userId'));
         }
 
         $builder = new PostFormBuilder($post);
@@ -80,9 +82,8 @@ class BackController extends Controller
         $form = $builder->getForm();
 
         if ($request->getMethod() == 'POST' && $form->isValid()) {
-            $post->setUserId((int) $this->app->getSession()->getUser()['id']);
             $this->manager->getRepository('Post')->save($post);
-            $this->app->getSession()->setFlash('L\'article à bien été ajouté');
+            $this->app->getSession()->setFlash('L\'article à bien été modifié');
             $this->app->getResponse()->redirect('/admin-posts');
         }
 
@@ -160,6 +161,42 @@ class BackController extends Controller
           'postsValidated' => $postsValidated,
           'deleteForm' => $deleteForm->createView(),
           'validateForm' => $validateForm->createView()
+        ));
+    }
+
+    public function executeEditComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {
+            $this->app->getResponse()->redirect404();
+        }
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment == null) {
+            $this->app->getResponse()->redirect404();
+        }
+        if ($request->getMethod() == 'POST') {
+            $comment->setAuthor($request->postData('author'));
+            $comment->setContent($request->postData('content'));
+            $comment->setPostId((int) $request->postData('postId'));
+        }
+
+        $builder = new CommentFormBuilder($comment);
+        $builder->build();
+        $form = $builder->getForm();
+
+        if ($request->getMethod() == 'POST' && $form->isValid()) {
+            $this->manager->getRepository('Comment')->save($comment);
+            $this->app->getSession()->setFlash('Le commentaire à bien été modifié');
+            $this->app->getResponse()->redirect('/admin-comments');
+        }
+
+        return $this->render('Back/editComment.html.twig', array(
+          'form' => $form->createView(),
+          'comment' => $comment,
         ));
     }
 
