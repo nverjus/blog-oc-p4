@@ -1,50 +1,55 @@
 index:
-  url:        /
-  module:     front
-  action :    index
+  url:          /
+  module:       front
+  action :      index
 
 blog:
-  url:        /blog
-  module:     front
-  action:     blog
+  url:          /blog
+  module:       front
+  action:       blog
 
 view_post:
-  url:        /post-([0-9]+)
-  module:     front
-  action:     viewPost
+  url:          /post-([0-9]+)
+  module:       front
+  action:       viewPost
   varsNames:
         - id
 
 admin_posts:
-  url:        /admin-posts
-  module:     back
-  action:     adminPosts
+  url:          /admin-posts
+  module:       back
+  action:       adminPosts
 
 add_post:
-  url:        /add-post
-  module:     back
-  action:     addPost
+  url:          /add-post
+  module:       back
+  action:       addPost
 
 edit_post:
-  url:        /edit-post-([0-9]+)
-  module:     back
-  action:     editPost
+  url:          /edit-post-([0-9]+)
+  module:       back
+  action:       editPost
   varsNames:
         - id
 
 delete_post:
-  url:        /delete-post-([0-9]+)
-  module:     back
-  action:     deletePost
+  url:          /delete-post-([0-9]+)
+  module:       back
+  action:       deletePost
   varsNames:
         - id
 
+adminComments:
+  url:          /admin-comments
+  module:       back
+  action:       adminComments
+
 login:
-  url:        /login
-  module:     security
-  action :    login
+  url:          /login
+  module:       security
+  action :      login
 
 logout:
-  url:        /logout
-  module:     security
-  action :    logout
+  url:          /logout
+  module:       security
+  action :      logout

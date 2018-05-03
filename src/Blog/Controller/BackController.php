@@ -4,8 +4,10 @@ namespace Blog\Controller;
 use NV\MiniFram\Controller;
 use NV\MiniFram\Request;
 use Blog\Entity\Post;
+use Bog\Entity\Comments;
 use Blog\Form\PostFormBuilder;
 use Blog\Form\DeleteFormBuilder;
+use Blog\Form\ValidateFormBuilder;
 
 class BackController extends Controller
 {
@@ -115,7 +117,44 @@ class BackController extends Controller
         } else {
             $this->app->getSession()->setAttribute('flash', 'L\'article n\'existe pas');
         }
-        
+
         $this->app->getResponse()->redirect('/admin-posts');
+    }
+
+    public function executeAdminComments(Request $request)
+    {
+        $postsToValidate = $this->manager->getRepository('Post')->findAll();
+        foreach ($postsToValidate as $post) {
+            $post->setComments($this->manager->getRepository('Comment')->findByPostNotValidated($post->getId()));
+            if (empty($post->getComments())) {
+                unset($post);
+            }
+        }
+        $postsToValidate = array_values($postsToValidate);
+
+        $postsValidated = $this->manager->getRepository('Post')->findAll();
+        foreach ($postsValidated as $post) {
+            $post->setComments($this->manager->getRepository('Comment')->findByPostValidated($post->getId()));
+            if (empty($post->getComments())) {
+                unset($post);
+            }
+        }
+        $postsValidated = array_values($postsValidated);
+
+
+        $deleteBuilder = new DeleteFormBuilder;
+        $deleteBuilder->build();
+        $deleteForm = $deleteBuilder->getForm();
+
+        $validateBuilder = new ValidateFormBuilder;
+        $validateBuilder->build();
+        $validateForm = $validateBuilder->getForm();
+
+        return $this->render('Back/adminComments.html.twig', array(
+          'postsToValidate' => $postsToValidate,
+          'postsValidated' => $postsValidated,
+          'deleteForm' => $deleteForm->createView(),
+          'validateForm' => $validateForm->createView()
+        ));
     }
 }

@@ -33,7 +33,7 @@ CREATE TABLE `Comment` (
   `author` varchar(50) NOT NULL,
   `content` text NOT NULL,
   `publicationDate` datetime NOT NULL,
-  `isValidated` enum('true','false') NOT NULL,
+  `isValidated` tinyint(1) NOT NULL DEFAULT '0',
   `postId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -42,8 +42,9 @@ CREATE TABLE `Comment` (
 --
 
 INSERT INTO `Comment` (`id`, `author`, `content`, `publicationDate`, `isValidated`, `postId`) VALUES
-(1, 'Un visiteur', 'Nulla tempus eu nunc id consectetur. Nunc tempor efficitur tempus. Sed faucibus aliquet ex, non eleifend felis tempor sed. Proin interdum lorem dui, at iaculis ipsum eleifend at. Aenean tempus quam sit amet libero condimentum tincidunt eu a tellus.', '2018-05-01 07:00:00', 'true', 2),
-(2, 'Une autre visiteur', 'Nulla tempus eu nunc id consectetur. Nunc tempor efficitur tempus. Sed faucibus aliquet ex, non eleifend felis tempor sed. Proin interdum lorem dui, at iaculis ipsum eleifend at. Aenean tempus quam sit amet libero condimentum tincidunt eu a tellus.', '2018-04-30 21:00:00', 'true', 2);
+(1, 'Un visiteur', 'Nulla tempus eu nunc id consectetur. Nunc tempor efficitur tempus. Sed faucibus aliquet ex, non eleifend felis tempor sed. Proin interdum lorem dui, at iaculis ipsum eleifend at. Aenean tempus quam sit amet libero condimentum tincidunt eu a tellus.', '2018-05-01 07:00:00', 1, 2),
+(2, 'Une autre visiteur', 'Nulla tempus eu nunc id consectetur. Nunc tempor efficitur tempus. Sed faucibus aliquet ex, non eleifend felis tempor sed. Proin interdum lorem dui, at iaculis ipsum eleifend at. Aenean tempus quam sit amet libero condimentum tincidunt eu a tellus.', '2018-04-30 21:00:00', 0, 2),
+(3, 'Une autre visiteur', 'Nulla tempus eu nunc id consectetur. Nunc tempor efficitur tempus. Sed faucibus aliquet ex, non eleifend felis tempor sed. Proin interdum lorem dui, at iaculis ipsum eleifend at. Aenean tempus quam sit amet libero condimentum tincidunt eu a tellus.', '2018-04-30 21:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,7 @@ CREATE TABLE `User` (
   `name` varchar(50) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `isValidated` enum('true','false') NOT NULL DEFAULT 'false',
+  `isValidated` tinyint(1) NOT NULL DEFAULT '0',
   `role` enum('member','admin') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -88,8 +89,8 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`id`, `name`, `email`, `password`, `isValidated`, `role`) VALUES
-(1, 'Nicolas Verjus', 'nverjus@protonmail.com', '$2y$10$6Y7/Xj.7tgfslPgIm9uKsuFIp18cMJsYTTaGuWK/KN4wftwzz.0cO', 'true', 'admin'),
-(2, 'Un Membre', 'nverjus@gmail.com', '$2y$10$oVE89wYddIJKXgD1YSA86eGxpAZnbvSiAwVve2ya8bA9DR8FWYRua', 'true', 'member');
+(1, 'Nicolas Verjus', 'nverjus@protonmail.com', '$2y$10$6Y7/Xj.7tgfslPgIm9uKsuFIp18cMJsYTTaGuWK/KN4wftwzz.0cO', 1, 'admin'),
+(2, 'Un Membre', 'nverjus@gmail.com', '$2y$10$oVE89wYddIJKXgD1YSA86eGxpAZnbvSiAwVve2ya8bA9DR8FWYRua', 1, 'member');
 
 --
 -- Index pour les tables exportées
