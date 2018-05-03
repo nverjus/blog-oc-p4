@@ -6,6 +6,7 @@ use NV\MiniFram\Request;
 use Blog\Entity\User;
 use Blog\Form\LoginFormBuilder;
 use Blog\Form\UserFormBuilder;
+use Blog\Form\EditUserFormBuilder;
 use Blog\Form\DeleteFormBuilder;
 use Blog\Form\ValidateFormBuilder;
 
@@ -109,5 +110,42 @@ class SecurityController extends Controller
           'deleteForm' => $deleteForm->createView(),
           'validateForm' => $validateForm->createView()
         ));
+    }
+
+    public function executeEditUser(Request $request)
+    {
+        if (!$this->isGranted('admin')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+
+        if (!$request->getExists('id') || ((int) $request->getData('id') <= 0)) {
+            $this->app->getResponse()->redirect404();
+        }
+        $user = $this->manager->getRepository('User')->findById((int) $request->getData('id'));
+        if ($user == null) {
+            $this->app->getResponse()->redirect404();
+        }
+        if ($request->getMethod() =='POST') {
+            $user->setName($request->postData('name'));
+            $user->setEmail($request->postData('email'));
+        }
+
+        $builder = new EditUserFormBuilder($user);
+        $builder->build();
+        $form = $builder->getForm();
+
+        if ($request->getMethod() == 'POST' && $form->isValid()) {
+            if (($this->manager->getRepository('User')->findByEmail($request->postData('email')) == null) || ($this->manager->getRepository('User')->findByEmail($request->postData('email'))->getId() == $user->getId())) {
+                $this->manager->getRepository('User')->save($user);
+                $this->app->getSession()->setFlash('Compte modifier');
+                $this->app->getResponse()->redirect('/admin-users');
+            }
+            if (!$this->app->getSession()->attributeExists('flash')) {
+                $this->app->getSession()->setFlash('Adresse email déjà utilisée');
+            }
+        }
+
+        return $this->render('Security/editUser.html.twig', array('form' => $form->createView(), 'user' => $user));
     }
 }

@@ -106,10 +106,10 @@ class UserRepository extends Repository
 
     private function edit(User $user)
     {
-        $req = $this->db->prepare('UPDATE User SET name = :name, email = :email, password = :password');
+        $req = $this->db->prepare('UPDATE User SET name = :name, email = :email WHERE id = :id');
         $req->bindValue(':name', $user->getName(), \PDO::PARAM_STR);
         $req->bindValue(':email', $user->getEmail(), \PDO::PARAM_STR);
-        $req->bindValue(':password', $user->getPassword(), \PDO::PARAM_STR);
+        $req->bindValue(':id', $user->getId(), \PDO::PARAM_INT);
         $req->execute();
     }
 

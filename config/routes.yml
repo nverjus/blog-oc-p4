@@ -85,3 +85,10 @@ admin_users:
   url:             /admin-users
   module:          security
   action:          adminUsers
+
+edit_user:
+  url:             /edit-user-([0-9]+)
+  module:          security
+  action:          editUser
+  varsNames:
+        - id
