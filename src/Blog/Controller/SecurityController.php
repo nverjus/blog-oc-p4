@@ -148,4 +148,29 @@ class SecurityController extends Controller
 
         return $this->render('Security/editUser.html.twig', array('form' => $form->createView(), 'user' => $user));
     }
+
+    public function executeValidateUser(Request $request)
+    {
+        if (!$this->isGranted('admin')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez valider un commentaire sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-users');
+        }
+
+        $comment = $this->manager->getRepository('User')->findById((int) $request->getData('id'));
+        if ($comment === null) {
+            $this->app->getSession()->setAttribute('flash', 'Le membre n\'existe pas');
+            $this->app->getResponse()->redirect('/admin-users');
+        } elseif ($comment->getIsValidated()) {
+            $this->app->getSession()->setAttribute('flash', 'Le membre à déjà été validé');
+            $this->app->getResponse()->redirect('/admin-users');
+        }
+
+        $this->manager->getRepository('User')->validate($comment);
+        $this->app->getSession()->setAttribute('flash', 'Le membre à bien été validé');
+        $this->app->getResponse()->redirect('/admin-users');
+    }
 }

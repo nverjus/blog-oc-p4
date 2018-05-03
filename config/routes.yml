@@ -92,3 +92,10 @@ edit_user:
   action:          editUser
   varsNames:
         - id
+
+validate_user:
+  url:             /validate-user-([0-9]+)
+  module:          security
+  action:          validateUser
+  varsNames:
+        - id
