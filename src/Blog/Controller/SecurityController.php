@@ -156,12 +156,12 @@ class SecurityController extends Controller
             $this->app->getResponse()->redirect('/blog');
         }
         if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
-            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez valider un commentaire sans passer par cette page');
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez valider un utilisateur sans passer par cette page');
             $this->app->getResponse()->redirect('/admin-users');
         }
 
-        $comment = $this->manager->getRepository('User')->findById((int) $request->getData('id'));
-        if ($comment === null) {
+        $user = $this->manager->getRepository('User')->findById((int) $request->getData('id'));
+        if ($user === null) {
             $this->app->getSession()->setAttribute('flash', 'Le membre n\'existe pas');
             $this->app->getResponse()->redirect('/admin-users');
         } elseif ($comment->getIsValidated()) {
@@ -169,8 +169,31 @@ class SecurityController extends Controller
             $this->app->getResponse()->redirect('/admin-users');
         }
 
-        $this->manager->getRepository('User')->validate($comment);
+        $this->manager->getRepository('User')->validate($user);
         $this->app->getSession()->setAttribute('flash', 'Le membre à bien été validé');
+        $this->app->getResponse()->redirect('/admin-users');
+    }
+
+    public function executeDeleteUser(Request $request)
+    {
+        if (!$this->isGranted('admin')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez supprimer un membre sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-users');
+        }
+
+        $user = $this->manager->getRepository('User')->findById((int) $request->getData('id'));
+        if ($user !== null) {
+            $this->manager->getRepository('User')->delete($user);
+
+            $this->app->getSession()->setAttribute('flash', 'Le membre à bien été supprimé');
+        } else {
+            $this->app->getSession()->setAttribute('flash', 'Le membres n\'existe pas');
+        }
+
         $this->app->getResponse()->redirect('/admin-users');
     }
 }

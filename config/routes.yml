@@ -99,3 +99,10 @@ validate_user:
   action:          validateUser
   varsNames:
         - id
+
+delete_user:
+  url:             /delete-user-([0-9]+)
+  module:          security
+  action:          deleteUser
+  varsNames:
+        - id

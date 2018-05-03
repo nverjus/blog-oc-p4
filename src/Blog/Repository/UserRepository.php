@@ -63,7 +63,7 @@ class UserRepository extends Repository
     {
         $users = [];
 
-        $req = $this->db->prepare('SELECT * FROM User WHERE isValidated = 1');
+        $req = $this->db->prepare('SELECT * FROM User WHERE isValidated = 1 AND role = "member"');
         $req->execute();
 
         while ($data = $req->fetch()) {
