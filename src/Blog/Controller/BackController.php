@@ -215,9 +215,6 @@ class BackController extends Controller
         if ($comment === null) {
             $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
             $this->app->getResponse()->redirect('/admin-comments');
-        } elseif ($comment->getIsValidated()) {
-            $this->app->getSession()->setAttribute('flash', 'Le commentaire à déjà été validé');
-            $this->app->getResponse()->redirect('/admin-comments');
         }
 
         $this->manager->getRepository('Comment')->validate($comment);
@@ -241,8 +238,6 @@ class BackController extends Controller
             $this->manager->getRepository('Comment')->delete($comment);
 
             $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été supprimé');
-        } else {
-            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
         }
 
         $this->app->getResponse()->redirect('/admin-comments');

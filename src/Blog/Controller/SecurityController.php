@@ -164,9 +164,6 @@ class SecurityController extends Controller
         if ($user === null) {
             $this->app->getSession()->setAttribute('flash', 'Le membre n\'existe pas');
             $this->app->getResponse()->redirect('/admin-users');
-        } elseif ($comment->getIsValidated()) {
-            $this->app->getSession()->setAttribute('flash', 'Le membre à déjà été validé');
-            $this->app->getResponse()->redirect('/admin-users');
         }
 
         $this->manager->getRepository('User')->validate($user);
@@ -190,8 +187,6 @@ class SecurityController extends Controller
             $this->manager->getRepository('User')->delete($user);
 
             $this->app->getSession()->setAttribute('flash', 'Le membre à bien été supprimé');
-        } else {
-            $this->app->getSession()->setAttribute('flash', 'Le membres n\'existe pas');
         }
 
         $this->app->getResponse()->redirect('/admin-users');
