@@ -114,7 +114,8 @@ ALTER TABLE `Post`
 -- Index pour la table `User`
 --
 ALTER TABLE `User`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
