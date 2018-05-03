@@ -51,6 +51,13 @@ validate_comment:
   varsNames:
         - id
 
+delete_comment:
+  url:             /delete-comment-([0-9]+)
+  module:          back
+  action:          deleteComment
+  varsNames:
+        - id
+
 login:
   url:             /login
   module:          security

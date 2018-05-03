@@ -187,4 +187,27 @@ class BackController extends Controller
         $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été validé');
         $this->app->getResponse()->redirect('/admin-comments');
     }
+
+    public function executeDeleteComment(Request $request)
+    {
+        if (!$this->isGranted('member')) {
+            $this->app->getSession()->setFlash('Vous n\'avez pas les droits nécessaire pour aller sur cette page');
+            $this->app->getResponse()->redirect('/blog');
+        }
+        if ($request->postData('csrf') != $this->app->getSession()->getAttribute('csrf')) {
+            $this->app->getSession()->setAttribute('flash', 'Vous ne pouvez supprimer un article sans passer par cette page');
+            $this->app->getResponse()->redirect('/admin-posts');
+        }
+
+        $comment = $this->manager->getRepository('Comment')->findById((int) $request->getData('id'));
+        if ($comment !== null) {
+            $this->manager->getRepository('Comment')->delete($comment);
+
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire à bien été supprimé');
+        } else {
+            $this->app->getSession()->setAttribute('flash', 'Le commentaire n\'existe pas');
+        }
+
+        $this->app->getResponse()->redirect('/admin-comments');
+    }
 }
