@@ -1,5 +1,7 @@
 # Blog OpenclassRooms project 5
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/441ecf28949b44cda493b42499ee8cc2)](https://app.codacy.com/app/nverjus/blog-oc-p5?utm_source=github.com&utm_medium=referral&utm_content=nverjus/blog-oc-p5&utm_campaign=badger)
+
 #### This is a simple CV/Blog appliation
 
 ### Requirements
