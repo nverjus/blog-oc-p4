@@ -50,12 +50,12 @@
         <div class="clearfix">
           {% if page > 1 %}
             <div class="col-sm-1">
-              <a class="btn btn-primary" href="/{{ page-1 }}">&larr; Newer Posts</a>
+              <a class="btn btn-primary" href="/blog-{{ page-1 }}">&larr; Newer Posts</a>
             </div>
           {% endif %}
           {% if page < nbPages %}
             <div class="col-sm-offset-9 col-sm-1">
-              <a class="btn btn-primary" href="/{{ page+1 }}">Older Posts &rarr;</a>
+              <a class="btn btn-primary" href="/blog-{{ page+1 }}">Older Posts &rarr;</a>
             </div>
           {% endif %}
         </div>
