@@ -65,7 +65,7 @@ Install the [Composer](https://getcomposer.org/download/) and run
 
  `$ cd path/to/directory`
 
- Duplicate the 'docker-compose.overrive.yml.dist' file as 'docker-compose.override.yml'
+ Duplicate the 'docker-compose.override.yml.dist' file as 'docker-compose.override.yml'
 
  Add your configuration in the docker-compose.override.yml file
 
