@@ -53,7 +53,6 @@ class FrontController extends Controller
             $this->app->getResponse()->redirect404();
         }
         $posts = $postRepo->findLastX($this->app->getConfig()->get('posts_per_page'), (int) $page);
-        $nbPages = $postRepo->getNbPages($this->app->getConfig()->get('posts_per_page'));
 
         return $this->render('Front/blog.html.twig', array(
           'posts' => $posts,

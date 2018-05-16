@@ -1,9 +1,9 @@
 database:
   dms:        "MySQL"
-  host:       "localhost"
-  dbname:     "NVBlog"
-  user:       "root"
-  password:   ""
+  host:       "mysql"
+  dbname:     "blog"
+  user:       "blog"
+  password:   "blog"
 
 swiftmailer:
   server:     smtp.gmail.com
@@ -13,4 +13,4 @@ swiftmailer:
   encryption: ssl
   emailTo:    ""
 
-  articles_per_page:  10
+posts_per_page:  10
