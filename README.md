@@ -4,6 +4,8 @@
 
 #### This is a simple CV/Blog appliation
 
+#### Install without docker
+
 ### Requirements
 
 [Apache2 with rewrite mod enabled](https://httpd.apache.org/download.cgi)
@@ -45,4 +47,40 @@ Install the [Composer](https://getcomposer.org/download/) and run
 
  `$ sudo systemctl restart apache2`
 
- Run <http://> in your web brower to access the site.
+ Run <http://localhost> in your web brower to access the app.
+
+#### Install with docker
+
+ [Docker](https://docs.docker.com/)
+
+ [Docker Compose](https://github.com/docker/compose)
+
+ Make
+
+### Installation
+
+ Clone [the project](https://github.com/nverjus/blog-oc-p5)
+
+ Move to directory
+
+ `$ cd path/to/directory`
+
+ Duplicate the 'docker-compose.overrive.yml.dist' file as 'docker-compose.override.yml'
+
+ Add your configuration in the docker-compose.override.yml file
+
+ Duplicate the '/config/config.yml.dist' file as 'config.yml'
+
+ Add your MySQL and mail credentials in the config.yml file
+
+ Execute the app setup script
+
+ `$ make start`
+
+ You can load some fixtures by running the fixtures script
+
+ `$ make load-fixtures`
+
+ You can stop the app with
+
+ `$ make stop`
