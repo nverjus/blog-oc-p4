@@ -15,8 +15,8 @@ try {
 
 try {
     $sql = "INSERT INTO `User` (`id`, `name`, `email`, `password`, `isValidated`, `role`) VALUES
-    (1, 'Nicolas Verjus', 'admin@mail.com', '$2y$10$uqxYn.4.6O8vpHa3Y9wGI.Qo77x.BTHfYhqKiTJfZcDLSE45QBCTy', 1, 'admin'),
-    (2, 'Un Membre', 'member@mail.com','$2y$10$uqxYn.4.6O8vpHa3Y9wGI.Qo77x.BTHfYhqKiTJfZcDLSE45QBCTy' , 1, 'member');";
+      (1, 'Nicolas Verjus', 'admin@mail.com', \"$2y\$10\$gXB9\.5Al/kvEPjoMUvD/iuvNmkaWAwePviM3WfE8r0Iyq5bSOgqQ6\", 1, 'admin'),
+      (2, 'Un Membre', 'member@mail.com', \"$2y$10\$uRP3K4rTllgQ5vCWNwNCI\.uPB1jMGUdPR7G5b/w2PFJsUYcfZeutO\", 1, 'member');";
 
     // use exec() because no results are returned
     $db->exec($sql);

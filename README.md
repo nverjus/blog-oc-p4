@@ -4,6 +4,22 @@
 
 #### This is a simple CV/Blog appliation
 
+Test account :
+
+<ul>
+  <li>Role Admin
+    <ul>
+      <li>mail : admin@mail.com<li>
+      <li>pass : adminadmin<li>
+    </ul>
+  </li>
+  <li>Role Member
+    <ul>
+      <li>mail : member@mail.com<li>
+      <li>pass : testtest<li>
+    </ul>
+  </li>
+
 #### Install without docker
 
 ### Requirements
@@ -76,10 +92,6 @@ Install the [Composer](https://getcomposer.org/download/) and run
  Execute the app setup script
 
  `$ make start`
-
- You can load some fixtures by running the fixtures script
-
- `$ make load-fixtures`
 
  You can stop the app with
 

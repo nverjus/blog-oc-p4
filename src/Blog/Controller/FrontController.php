@@ -48,7 +48,6 @@ class FrontController extends Controller
 
         $postRepo = $this->manager->getRepository('Post');
         $nbPages = $postRepo->getNbPages($this->app->getConfig()->get('posts_per_page'));
-
         if ($page <= 0 || $page > $nbPages) {
             $this->app->getResponse()->redirect404();
         }
