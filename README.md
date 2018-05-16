@@ -6,7 +6,7 @@
 
 ### Requirements
 
-[Apache2](https://httpd.apache.org/download.cgi)
+[Apache2 with rewrite mod enabled](https://httpd.apache.org/download.cgi)
 
 [PHP 7.1](http://php.net/downloads.php)
 
@@ -26,23 +26,23 @@ Install the [Composer](https://getcomposer.org/download/) and run
 
 `$ php composer.phar install`
 
-Run MySql and import the NVBlog_DB.sql file
-
- `$ mysql -u root -p`
-
- `mysql > SOURCE NVBlog_DB.sql`
-
  Duplicate the '/config/config.yml.dist' file as 'config.yml'
 
  Add your MySQL and mail credentials in the config.yml file
 
+ Execute the database creation script
+
+ `$ php setup/db-schema.php`
+
+ You can load some fixtures by running th db-fixtures.php script
+
+ `$ php setup/db-fixture.php`
+
  Copy the blog.conf file to 'sites-availables' folder from Apache and enable the site
 
  On Linux :
- `$ sudo cp blog.conf etc/apache2/sites-available/blog.conf`
-
- `$ sudo a2ensite blog.conf`
+ `$ sudo cp setup/000-default.conf /etc/apache2/sites-available/000-default.conf`
 
  `$ sudo systemctl restart apache2`
 
- Run <http://blog.oc> in your web brower to access the site.
+ Run <http://> in your web brower to access the site.
