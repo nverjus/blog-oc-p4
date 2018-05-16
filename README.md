@@ -9,14 +9,14 @@ Test account :
 <ul>
   <li>Role Admin
     <ul>
-      <li>mail : admin@mail.com<li>
-      <li>pass : adminadmin<li>
+      <li>mail : admin@mail.com</li>
+      <li>pass : adminadmin</li>
     </ul>
   </li>
   <li>Role Member
     <ul>
-      <li>mail : member@mail.com<li>
-      <li>pass : testtest<li>
+      <li>mail : member@mail.com</li>
+      <li>pass : testtest</li>
     </ul>
   </li>
 
